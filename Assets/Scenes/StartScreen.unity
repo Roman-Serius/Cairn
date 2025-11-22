@@ -435,6 +435,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433249969b2ed40e9a0adc399e8874c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneController
+  stoneSceneName: Building Area
+  stoneToggleKey: 98
 --- !u!114 &828395170
 MonoBehaviour:
   m_ObjectHideFlags: 0

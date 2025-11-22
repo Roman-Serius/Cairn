@@ -1,11 +1,18 @@
 using System.Collections;
 using UnityEngine;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
     public static SceneController Instance;
+
+    [Header("Stone building toggle")]
+    public string stoneSceneName = "StoneBuildingScene";   // <-- set actual scene name in Inspector
+    public KeyCode stoneToggleKey = KeyCode.B;             // <-- key to open/close
+    private bool stoneSceneOpen = false;
 
     private void Awake()
     {
@@ -19,6 +26,43 @@ public class SceneController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Update()
+    {
+        // Don't allow toggling while the game is paused
+        if (Time.timeScale == 0f)
+            return;
+
+        if (Input.GetKeyDown(stoneToggleKey))
+        {
+            if (!stoneSceneOpen)
+                OpenStoneScene();
+            else
+                CloseStoneScene();
+        }
+    }
+
+    private void OpenStoneScene()
+    {
+        LoadAdditive(stoneSceneName);
+
+        // Optional: disable world camera so the stone scene can control its own
+        if (CameraController.instance != null)
+            CameraController.instance.enabled = false;
+
+        stoneSceneOpen = true;
+    }
+
+    private void CloseStoneScene()
+    {
+        UnloadAdditive(stoneSceneName);
+
+        // Re-enable world camera
+        if (CameraController.instance != null)
+            CameraController.instance.enabled = true;
+
+        stoneSceneOpen = false;
     }
 
     // Basic load
